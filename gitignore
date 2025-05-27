@@ -1,0 +1,17 @@
+# Java build directories
+/target/
+/build/
+
+# IDE settings
+.idea/
+.vscode/
+*.iml
+
+# Maven
+.mvn/
+
+# OS system files
+.DS_Store
+
+# Logs
+*.log
