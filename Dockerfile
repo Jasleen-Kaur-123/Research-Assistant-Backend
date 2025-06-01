@@ -2,8 +2,11 @@
 FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
 
-# Copy pom.xml and source code
+# Copy pom.xml and download dependencies first (cache boost)
 COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy the rest of the project
 COPY src ./src
 
 # Build the jar (skip tests for faster build)
@@ -16,8 +19,8 @@ WORKDIR /app
 # Copy the jar from the previous stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose the default Spring Boot port
-EXPOSE 8080
+# Expose the port your Spring Boot app runs on
+EXPOSE 8088
 
 # Run the jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
